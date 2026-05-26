@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const introOverlay = document.getElementById('introOverlay');
+    const splashScreen = document.getElementById('splashScreen');
     const container = document.querySelector('.container');
     
     // Create Confetti Container
@@ -7,59 +7,47 @@ document.addEventListener('DOMContentLoaded', () => {
     confettiContainer.className = 'confetti-container';
     document.body.appendChild(confettiContainer);
 
-    // Premium Confetti Effect
+    // Falling Flowers Effect
     const fireConfetti = () => {
-        const colors = ['#d4af37', '#f4c2c2', '#ffffff', '#c5a059', '#fdfbf7'];
-        const particleCount = 80;
+        const colors = ['#d4af37', '#f4c2c2', '#ffb6c1', '#ffc0cb', '#ffffff']; // Added pink/flower colors
+        const particleCount = 60;
         
         for (let i = 0; i < particleCount; i++) {
             const particle = document.createElement('div');
             
-            // Randomize shape (circle or rectangle)
-            if (Math.random() > 0.5) {
-                particle.style.borderRadius = '50%';
-            } else {
-                particle.style.borderRadius = '2px';
-            }
+            // Randomize shape (circle or petal-like)
+            particle.style.borderRadius = Math.random() > 0.5 ? '50%' : '50% 0 50% 50%'; // petal shape
             
-            const size = Math.random() * 6 + 4; // 4-10px
+            const size = Math.random() * 8 + 6; // 6-14px
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
             particle.style.position = 'absolute';
             particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
             
-            // Initial position (center top)
-            particle.style.left = '50%';
-            particle.style.top = '30%';
-            particle.style.transform = 'translate(-50%, -50%)';
-            particle.style.boxShadow = `0 0 ${Math.random() * 10}px ${particle.style.backgroundColor}`;
+            // Initial position (random across top of screen)
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.top = `-20px`; // start above screen
+            particle.style.opacity = (Math.random() * 0.5 + 0.5).toString();
             
             confettiContainer.appendChild(particle);
             
-            // Physics
-            const angle = Math.random() * Math.PI * 2;
-            const velocity = 100 + Math.random() * 200;
-            const tx = Math.cos(angle) * velocity;
-            const ty = Math.sin(angle) * velocity - 100; // slight upward bias
-            
-            const duration = 2000 + Math.random() * 1500;
+            // Physics for falling
+            const tx = (Math.random() - 0.5) * 200; // random drift left/right
+            const ty = window.innerHeight + 50; // fall to bottom
+            const duration = 3000 + Math.random() * 4000; // fall slower
             
             particle.animate([
                 { 
-                    transform: `translate(-50%, -50%) scale(0)`, 
-                    opacity: 1 
+                    transform: `translate(0, 0) rotate(0deg)`,
+                    opacity: 1
                 },
                 { 
-                    transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) rotate(${Math.random() * 360}deg) scale(1)`, 
-                    offset: 0.2 
-                },
-                { 
-                    transform: `translate(calc(-50% + ${tx * 1.5}px), calc(100vh + 20px)) rotate(${Math.random() * 720}deg)`, 
-                    opacity: 0 
+                    transform: `translate(${tx}px, ${ty}px) rotate(${Math.random() * 720}deg)`,
+                    opacity: 0
                 }
             ], {
                 duration: duration,
-                easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+                easing: 'linear',
                 fill: 'forwards'
             });
             
@@ -71,71 +59,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Intro Tap Event
-    let isRevealed = false;
-    introOverlay.addEventListener('click', () => {
-        if (isRevealed) return;
-        isRevealed = true;
-        
-        // Hide intro
-        introOverlay.classList.add('revealed');
+    // Splash Screen Auto Reveal
+    setTimeout(() => {
+        if (splashScreen) {
+            splashScreen.classList.add('revealed');
+        }
         
         // Show Card with slight delay
         setTimeout(() => {
             container.classList.add('show-card');
         }, 300);
         
-        // Fire Confetti
+        // Fire Flowers
         setTimeout(() => {
             fireConfetti();
         }, 500);
-    });
-
-    // Falling Flowers Logic
-    const startFallingFlowers = () => {
-        const createFlower = () => {
-            const flower = document.createElement('div');
-            flower.className = 'falling-flower';
-            
-            const colors = ['#f4c2c2', '#ffb6c1', '#ffffff', '#ffd700', '#ffebcd'];
-            flower.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            
-            // Petal shape
-            flower.style.width = `${Math.random() * 8 + 6}px`;
-            flower.style.height = `${Math.random() * 12 + 10}px`;
-            flower.style.borderRadius = '50% 0 50% 0';
-            
-            flower.style.top = '-20px';
-            flower.style.left = `${Math.random() * 100}vw`;
-            flower.style.opacity = Math.random() * 0.6 + 0.4;
-            
-            const duration = Math.random() * 4 + 4; // 4 to 8 seconds
-            const rotation = Math.random() * 360;
-            
-            flower.animate([
-                { transform: `translateY(0) rotate(${rotation}deg)`, opacity: 0 },
-                { opacity: flower.style.opacity, offset: 0.1 },
-                { transform: `translateY(100vh) translateX(${Math.random() * 100 - 50}px) rotate(${rotation + 360}deg)`, opacity: 0 }
-            ], {
-                duration: duration * 1000,
-                easing: 'linear',
-                fill: 'forwards'
-            });
-            
-            document.body.appendChild(flower);
-            
-            setTimeout(() => {
-                if (flower.parentNode) {
-                    flower.parentNode.removeChild(flower);
-                }
-            }, duration * 1000);
-        };
-
-        // Create flowers periodically
-        setInterval(createFlower, 400);
-    };
-
-    startFallingFlowers();
+    }, 2000); // 2 seconds animation before opening
 
     // Scratch Card Logic
     const canvas = document.getElementById('scratchCanvas');
