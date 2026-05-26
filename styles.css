@@ -217,7 +217,7 @@ body {
     -webkit-backdrop-filter: blur(25px);
     border: 1px solid var(--card-border);
     border-radius: 20px;
-    padding: 50px 45px;
+    padding: 25px 45px 50px;
     text-align: center;
     box-shadow: 
         0 20px 40px -10px rgba(0, 0, 0, 0.08),
@@ -235,7 +235,7 @@ body {
 
 /* Header */
 .header {
-    margin-bottom: 35px;
+    margin-bottom: 20px;
 }
 
 .eyebrow {
@@ -462,7 +462,7 @@ video.paused {
     }
     
     .invitation-card {
-        padding: 40px 25px;
+        padding: 20px 25px 40px;
     }
 }
 
