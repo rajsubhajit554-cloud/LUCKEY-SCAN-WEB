@@ -105,6 +105,7 @@ body {
     justify-content: center;
     align-items: center;
     transition: opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1), visibility 1.2s;
+    perspective: 1000px; /* Added for 3D flip effect */
 }
 
 .splash-center {
@@ -161,8 +162,9 @@ body {
 }
 
 .splash-screen.revealed .splash-center {
-    transform: scale(1.5);
+    transform: scale(3) rotateY(180deg); /* Flip and Zoom */
     opacity: 0;
+    transition: transform 1s ease-in, opacity 0.8s ease-in;
 }
 
 /* Main Container & Card */
