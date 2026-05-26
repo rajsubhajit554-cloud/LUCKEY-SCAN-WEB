@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const ribbonOverlay = document.getElementById('ribbonOverlay');
+    const introOverlay = document.getElementById('introOverlay');
     const container = document.querySelector('.container');
     
     // Create Confetti Container
@@ -71,14 +71,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Ribbon Tap Event
+    // Intro Tap Event
     let isRevealed = false;
-    ribbonOverlay.addEventListener('click', () => {
+    introOverlay.addEventListener('click', () => {
         if (isRevealed) return;
         isRevealed = true;
         
-        // Hide ribbon
-        ribbonOverlay.classList.add('revealed');
+        // Hide intro
+        introOverlay.classList.add('revealed');
         
         // Show Card with slight delay
         setTimeout(() => {
@@ -90,6 +90,52 @@ document.addEventListener('DOMContentLoaded', () => {
             fireConfetti();
         }, 500);
     });
+
+    // Falling Flowers Logic
+    const startFallingFlowers = () => {
+        const createFlower = () => {
+            const flower = document.createElement('div');
+            flower.className = 'falling-flower';
+            
+            const colors = ['#f4c2c2', '#ffb6c1', '#ffffff', '#ffd700', '#ffebcd'];
+            flower.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            
+            // Petal shape
+            flower.style.width = `${Math.random() * 8 + 6}px`;
+            flower.style.height = `${Math.random() * 12 + 10}px`;
+            flower.style.borderRadius = '50% 0 50% 0';
+            
+            flower.style.top = '-20px';
+            flower.style.left = `${Math.random() * 100}vw`;
+            flower.style.opacity = Math.random() * 0.6 + 0.4;
+            
+            const duration = Math.random() * 4 + 4; // 4 to 8 seconds
+            const rotation = Math.random() * 360;
+            
+            flower.animate([
+                { transform: `translateY(0) rotate(${rotation}deg)`, opacity: 0 },
+                { opacity: flower.style.opacity, offset: 0.1 },
+                { transform: `translateY(100vh) translateX(${Math.random() * 100 - 50}px) rotate(${rotation + 360}deg)`, opacity: 0 }
+            ], {
+                duration: duration * 1000,
+                easing: 'linear',
+                fill: 'forwards'
+            });
+            
+            document.body.appendChild(flower);
+            
+            setTimeout(() => {
+                if (flower.parentNode) {
+                    flower.parentNode.removeChild(flower);
+                }
+            }, duration * 1000);
+        };
+
+        // Create flowers periodically
+        setInterval(createFlower, 400);
+    };
+
+    startFallingFlowers();
 
     // Scratch Card Logic
     const canvas = document.getElementById('scratchCanvas');
