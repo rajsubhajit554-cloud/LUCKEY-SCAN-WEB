@@ -64,127 +64,164 @@ document.addEventListener('DOMContentLoaded', () => {
         container.classList.add('show-card');
     }, 100);
     
-    // Fire Flowers
-    setTimeout(() => {
-        fireConfetti();
-    }, 400);
-
-    // Scratch Card Logic
+    // Unlucky Video Logic & Scratch Card
+    const unluckyText = document.getElementById('unluckyText');
+    const unluckyVideo = document.getElementById('unluckyVideo');
+    const unmuteHint = document.getElementById('unmuteHint');
     const canvas = document.getElementById('scratchCanvas');
-    if (canvas) {
-        const ctx = canvas.getContext('2d', { willReadFrequently: true });
-        let isDrawing = false;
-        
-        // Resize canvas to match its CSS size to avoid blurriness
-        const resizeCanvas = () => {
-            const rect = canvas.getBoundingClientRect();
-            canvas.width = rect.width;
-            canvas.height = rect.height;
-            initCanvas();
-        };
 
-        // Initialize canvas cover
-        const initCanvas = () => {
-            ctx.globalCompositeOperation = 'source-over';
-            ctx.fillStyle = '#c5a059'; // Warm Gold cover
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Add text pattern
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 24px Outfit';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText('Scratch Here', canvas.width / 2, canvas.height / 2);
-            
-            ctx.globalCompositeOperation = 'destination-out';
-        };
-
-        const getMousePos = (canvas, evt) => {
-            const rect = canvas.getBoundingClientRect();
-            const scaleX = canvas.width / rect.width;
-            const scaleY = canvas.height / rect.height;
-
-            let clientX = evt.clientX;
-            let clientY = evt.clientY;
-
-            if (evt.touches && evt.touches.length > 0) {
-                clientX = evt.touches[0].clientX;
-                clientY = evt.touches[0].clientY;
+    if (unluckyText && unluckyVideo) {
+        // Unmute on interaction
+        const enableSound = () => {
+            if (unluckyVideo.muted) {
+                unluckyVideo.muted = false;
+                if (unmuteHint) unmuteHint.style.display = 'none';
             }
-
-            return {
-                x: (clientX - rect.left) * scaleX,
-                y: (clientY - rect.top) * scaleY
-            };
         };
+        document.body.addEventListener('click', enableSound);
+        document.body.addEventListener('touchstart', enableSound, { passive: true });
 
-        const scratch = (e) => {
-            if (!isDrawing) return;
-            e.preventDefault();
-            const pos = getMousePos(canvas, e);
-            
-            ctx.beginPath();
-            ctx.arc(pos.x, pos.y, 20, 0, 2 * Math.PI);
-            ctx.fill();
-
-            checkScratched();
-        };
-
-        const checkScratched = () => {
-            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            const pixels = imageData.data;
-            let transparentPixels = 0;
-
-            // Only check every 4th pixel (alpha channel)
-            for (let i = 3; i < pixels.length; i += 4) {
-                if (pixels[i] === 0) {
-                    transparentPixels++;
-                }
+        // Toggle between two videos
+        unluckyVideo.addEventListener('ended', () => {
+            if (unluckyVideo.src.includes('02.l.mp4')) {
+                unluckyVideo.src = '01.l.mp4';
+            } else {
+                unluckyVideo.src = '02.l.mp4';
             }
+            unluckyVideo.play().catch(e => {
+                unluckyVideo.muted = true;
+                if (unmuteHint) unmuteHint.style.display = 'block';
+                unluckyVideo.play();
+            });
+        });
 
-            const totalPixels = pixels.length / 4;
-            const percentScratched = (transparentPixels / totalPixels) * 100;
-
-            if (percentScratched > 40) {
-                // Clear the rest of the canvas
-                canvas.style.transition = "opacity 0.6s ease";
-                canvas.style.opacity = 0;
-                
+        const startVideoSequence = () => {
+            setTimeout(() => {
+                unluckyText.style.opacity = '0';
                 setTimeout(() => {
-                    canvas.style.display = 'none';
-                    fireConfetti(); // Fire confetti when scratched
-                }, 600);
+                    unluckyText.style.display = 'none';
+                    unluckyVideo.style.display = 'block';
+                    unluckyVideo.muted = false;
+                    unluckyVideo.play().catch(e => {
+                        unluckyVideo.muted = true;
+                        if (unmuteHint) unmuteHint.style.display = 'block';
+                        unluckyVideo.play();
+                    });
+                }, 500);
+            }, 1000);
+        };
+
+        // Scratch Card Logic
+        if (canvas) {
+            const ctx = canvas.getContext('2d', { willReadFrequently: true });
+            let isDrawing = false;
+            
+            const resizeCanvas = () => {
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = rect.height;
+                initCanvas();
+            };
+
+            const initCanvas = () => {
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.fillStyle = '#c5a059'; 
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
-                // Remove listeners
-                canvas.removeEventListener('mousedown', startDrawing);
-                canvas.removeEventListener('mousemove', scratch);
-                canvas.removeEventListener('mouseup', stopDrawing);
-                canvas.removeEventListener('touchstart', startDrawing);
-                canvas.removeEventListener('touchmove', scratch);
-                canvas.removeEventListener('touchend', stopDrawing);
-            }
-        };
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 20px Outfit';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('Scratch Here', canvas.width / 2, canvas.height / 2);
+                
+                ctx.globalCompositeOperation = 'destination-out';
+            };
 
-        const startDrawing = (e) => {
-            isDrawing = true;
-            scratch(e);
-        };
+            const getMousePos = (canvas, evt) => {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
 
-        const stopDrawing = () => {
-            isDrawing = false;
-        };
+                let clientX = evt.clientX;
+                let clientY = evt.clientY;
 
-        canvas.addEventListener('mousedown', startDrawing);
-        canvas.addEventListener('mousemove', scratch);
-        canvas.addEventListener('mouseup', stopDrawing);
-        canvas.addEventListener('mouseleave', stopDrawing);
-        
-        canvas.addEventListener('touchstart', startDrawing, { passive: false });
-        canvas.addEventListener('touchmove', scratch, { passive: false });
-        canvas.addEventListener('touchend', stopDrawing);
-        
-        // Wait for next tick so bounding rect is correct
-        setTimeout(resizeCanvas, 100);
-        window.addEventListener('resize', resizeCanvas);
+                if (evt.touches && evt.touches.length > 0) {
+                    clientX = evt.touches[0].clientX;
+                    clientY = evt.touches[0].clientY;
+                }
+
+                return {
+                    x: (clientX - rect.left) * scaleX,
+                    y: (clientY - rect.top) * scaleY
+                };
+            };
+
+            const scratch = (e) => {
+                if (!isDrawing) return;
+                e.preventDefault();
+                const pos = getMousePos(canvas, e);
+                
+                ctx.beginPath();
+                ctx.arc(pos.x, pos.y, 25, 0, 2 * Math.PI);
+                ctx.fill();
+
+                checkScratched();
+            };
+
+            const checkScratched = () => {
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const pixels = imageData.data;
+                let transparentPixels = 0;
+
+                for (let i = 3; i < pixels.length; i += 4) {
+                    if (pixels[i] === 0) {
+                        transparentPixels++;
+                    }
+                }
+
+                const totalPixels = pixels.length / 4;
+                const percentScratched = (transparentPixels / totalPixels) * 100;
+
+                if (percentScratched > 40) {
+                    canvas.style.transition = "opacity 0.6s ease";
+                    canvas.style.opacity = 0;
+                    
+                    setTimeout(() => {
+                        canvas.style.display = 'none';
+                        startVideoSequence();
+                    }, 600);
+                    
+                    canvas.removeEventListener('mousedown', startDrawing);
+                    canvas.removeEventListener('mousemove', scratch);
+                    canvas.removeEventListener('mouseup', stopDrawing);
+                    canvas.removeEventListener('touchstart', startDrawing);
+                    canvas.removeEventListener('touchmove', scratch);
+                    canvas.removeEventListener('touchend', stopDrawing);
+                }
+            };
+
+            const startDrawing = (e) => {
+                isDrawing = true;
+                scratch(e);
+            };
+
+            const stopDrawing = () => {
+                isDrawing = false;
+            };
+
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', scratch);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseleave', stopDrawing);
+            
+            canvas.addEventListener('touchstart', startDrawing, { passive: false });
+            canvas.addEventListener('touchmove', scratch, { passive: false });
+            canvas.addEventListener('touchend', stopDrawing);
+            
+            setTimeout(resizeCanvas, 100);
+            window.addEventListener('resize', resizeCanvas);
+        } else {
+            startVideoSequence();
+        }
     }
 });
