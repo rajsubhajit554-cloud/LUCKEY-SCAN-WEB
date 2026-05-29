@@ -305,7 +305,7 @@ body {
     width: 100%;
     max-width: 200px; /* Reduced further to make scratch box smaller */
     aspect-ratio: 9 / 16;
-    margin: 0 auto 35px;
+    margin: 0 auto 35px 20px; /* Aligned left with 20px margin */
     border-radius: 16px;
     overflow: hidden;
     background: linear-gradient(135deg, #fff, #f4e8d8);
