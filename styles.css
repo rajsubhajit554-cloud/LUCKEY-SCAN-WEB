@@ -341,8 +341,8 @@ body {
 
 .unlucky-title {
     font-family: var(--font-serif);
-    font-size: 2.2rem;
-    margin-bottom: 12px;
+    font-size: 1.4rem; /* Reduced to fit the smaller box */
+    margin-bottom: 10px;
     font-weight: 600;
     color: #e74c3c;
     animation: scalePulse 2s ease-in-out infinite alternate;
@@ -350,8 +350,8 @@ body {
 
 .unlucky-message {
     color: var(--text-primary);
-    font-size: 1.1rem;
-    line-height: 1.5;
+    font-size: 0.85rem; /* Reduced to fit the smaller box */
+    line-height: 1.4;
     font-weight: 500;
     font-family: var(--font-sans);
     animation: floatText 3s ease-in-out infinite;
