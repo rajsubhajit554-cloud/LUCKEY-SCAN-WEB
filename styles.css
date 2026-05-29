@@ -180,7 +180,6 @@ body {
     position: relative;
     padding: 0 0 50px; /* Removed top and side padding */
     text-align: center;
-    transform: translateY(30px) scale(0.95);
     opacity: 0;
     transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
     transition-delay: 0.4s;
@@ -196,7 +195,6 @@ body {
 }
 
 .container.show-card .invitation-card {
-    transform: translateY(0) scale(1);
     opacity: 1;
 }
 
