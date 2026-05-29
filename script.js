@@ -114,6 +114,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Ribbon Logic
         if (ribbonContainer) {
             const cutRibbon = () => {
+                // Fire the flower/confetti effect
+                fireConfetti();
+
                 // Add the cut class to trigger CSS animations
                 ribbonContainer.classList.add('cut');
                 
