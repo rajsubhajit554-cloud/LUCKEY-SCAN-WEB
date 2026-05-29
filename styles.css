@@ -224,6 +224,24 @@ body {
     font-weight: 500;
 }
 
+/* Banner */
+.banner-box {
+    width: 100%;
+    margin-bottom: 25px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(212, 175, 55, 0.15);
+}
+
+.banner-box img {
+    width: 100%;
+    height: 100%;
+    max-height: 350px;
+    object-fit: cover;
+    display: block;
+}
+
 /* Header */
 .header {
     margin-bottom: 20px;
