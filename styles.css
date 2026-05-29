@@ -293,7 +293,7 @@ body {
 .unlucky-video-container {
     position: relative;
     width: 100%;
-    max-width: 320px;
+    max-width: 250px; /* Reduced from 320px to make the box smaller */
     aspect-ratio: 9 / 16;
     margin: 0 auto 35px;
     border-radius: 16px;
