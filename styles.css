@@ -521,13 +521,42 @@ body {
     }
 }
 
-#scratchCanvas {
+.ribbon-container {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     z-index: 3;
-    cursor: crosshair;
-    touch-action: none;
+    background: linear-gradient(135deg, var(--accent-3), var(--accent-1));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
     user-select: none;
+}
+
+.ribbon-logo {
+    width: 65%;
+    max-width: 120px;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2));
+    animation: ribbonPulse 2s infinite ease-in-out;
+}
+
+.ribbon-text {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    font-family: var(--font-sans);
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+@keyframes ribbonPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
 }
