@@ -59,22 +59,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Splash Screen Auto Reveal
+    // Show Card almost immediately
     setTimeout(() => {
-        if (splashScreen) {
-            splashScreen.classList.add('revealed');
-        }
-        
-        // Show Card with slight delay
-        setTimeout(() => {
-            container.classList.add('show-card');
-        }, 300);
-        
-        // Fire Flowers
-        setTimeout(() => {
-            fireConfetti();
-        }, 500);
-    }, 2000); // 2 seconds animation before opening
+        container.classList.add('show-card');
+    }, 100);
+    
+    // Fire Flowers
+    setTimeout(() => {
+        fireConfetti();
+    }, 400);
 
     // Scratch Card Logic
     const canvas = document.getElementById('scratchCanvas');
