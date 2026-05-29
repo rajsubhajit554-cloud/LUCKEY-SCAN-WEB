@@ -299,13 +299,23 @@ body {
     transform: rotate(45deg);
 }
 
+/* Content Row */
+.content-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    padding: 0 20px;
+}
+
 /* Unlucky Video Section */
 .unlucky-video-container {
     position: relative;
     width: 100%;
     max-width: 200px; /* Reduced further to make scratch box smaller */
     aspect-ratio: 9 / 16;
-    margin: 0 auto 35px 20px; /* Aligned left with 20px margin */
+    margin: 0; /* Margin handled by flex row */
     border-radius: 16px;
     overflow: hidden;
     background: linear-gradient(135deg, #fff, #f4e8d8);
@@ -408,21 +418,21 @@ body {
 
 /* WhatsApp Button */
 .action-buttons {
-    margin-bottom: 25px;
+    margin-bottom: 0;
     display: flex;
-    justify-content: flex-end; /* Aligned right */
+    justify-content: flex-start;
 }
 
 .wp-button {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     padding: 8px 16px;
     background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
     color: #fff;
     text-decoration: none;
     font-family: var(--font-sans);
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 500;
     border-radius: 30px;
     box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
@@ -437,8 +447,6 @@ body {
 
 .wp-button svg {
     fill: #fff;
-    width: 18px;
-    height: 18px;
 }
 
 /* Footer */
