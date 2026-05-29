@@ -178,12 +178,21 @@ body {
 
 .invitation-card {
     position: relative;
-    padding: 10px 20px 50px;
+    padding: 0 0 50px; /* Removed top and side padding */
     text-align: center;
     transform: translateY(30px) scale(0.95);
     opacity: 0;
     transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
     transition-delay: 0.4s;
+    border-radius: 16px;
+    background: var(--card-bg);
+    overflow: hidden;
+    border: 1px solid var(--card-border);
+}
+
+.header, .action-buttons, .footer {
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .container.show-card .invitation-card {
@@ -226,14 +235,17 @@ body {
 
 /* Banner */
 .banner-box {
-    width: 90%;
-    max-width: 300px;
+    width: 100%;
+    max-width: 100%;
     aspect-ratio: 16 / 9;
     margin: 0 auto 20px;
-    border-radius: 12px;
+    border-radius: 16px 16px 0 0;
     overflow: hidden;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     border: 2px solid rgba(212, 175, 55, 0.15);
+    border-top: none;
+    border-left: none;
+    border-right: none;
 }
 
 .banner-box img {
@@ -457,7 +469,7 @@ body {
     }
     
     .invitation-card {
-        padding: 20px 10px 40px;
+        padding: 0 0 40px;
     }
 }
 
