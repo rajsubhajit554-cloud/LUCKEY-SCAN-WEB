@@ -114,14 +114,19 @@ document.addEventListener('DOMContentLoaded', () => {
         // Ribbon Logic
         if (ribbonContainer) {
             const cutRibbon = () => {
-                ribbonContainer.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-                ribbonContainer.style.opacity = '0';
-                ribbonContainer.style.transform = "scale(1.2)";
+                // Add the cut class to trigger CSS animations
+                ribbonContainer.classList.add('cut');
                 
+                // After the ribbons slide away, fade out the container
                 setTimeout(() => {
-                    ribbonContainer.style.display = 'none';
-                    startVideoSequence();
-                }, 600);
+                    ribbonContainer.style.transition = "opacity 0.6s ease";
+                    ribbonContainer.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        ribbonContainer.style.display = 'none';
+                        startVideoSequence();
+                    }, 600);
+                }, 800);
             };
 
             ribbonContainer.addEventListener('click', cutRibbon);
