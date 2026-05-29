@@ -537,12 +537,13 @@ body {
 }
 
 .ribbon-logo {
-    width: 65%;
-    max-width: 120px;
+    width: 85%;
+    max-width: 160px;
     height: auto;
-    object-fit: contain;
-    margin-bottom: 12px;
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2));
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
     animation: ribbonPulse 2s infinite ease-in-out;
 }
 
