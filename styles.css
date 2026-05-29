@@ -622,8 +622,8 @@ body {
 
 /* Social Footer */
 .social-footer {
-    margin-top: 20px;
-    padding-top: 20px;
+    margin-top: 10px;
+    padding-top: 10px;
     border-top: 1px solid rgba(212, 175, 55, 0.3);
     text-align: center;
 }
@@ -655,26 +655,4 @@ body {
 .social-icon.fb:hover { background: #1877f2; color: #fff; }
 .social-icon.ig:hover { background: #e4405f; color: #fff; }
 .social-icon.yt:hover { background: #ff0000; color: #fff; }
-
-.dripza-brand {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.dripza-logo {
-    width: 30px;
-    height: auto;
-    border-radius: 50%;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
-
-.dripza-brand span {
-    font-family: var(--font-sans);
-    font-weight: 600;
-    color: var(--text-primary);
-    font-size: 1rem;
-    letter-spacing: 0.5px;
-}
+.social-icon.dripza:hover { transform: scale(1.1); box-shadow: 0 6px 14px rgba(212, 175, 55, 0.4); }
