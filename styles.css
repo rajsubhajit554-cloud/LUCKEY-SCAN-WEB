@@ -257,7 +257,7 @@ body {
     object-fit: cover;
     display: block;
     opacity: 0;
-    animation: bannerSlideRight 15s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation: bannerSlideRight 15s ease-in-out infinite;
 }
 
 .banner-box img:nth-child(1) { animation-delay: 0s; }
@@ -265,11 +265,11 @@ body {
 .banner-box img:nth-child(3) { animation-delay: 10s; }
 
 @keyframes bannerSlideRight {
-    0% { opacity: 0; transform: translateX(10%); }
-    10% { opacity: 1; transform: translateX(0); }
-    33% { opacity: 1; transform: translateX(0); }
-    43% { opacity: 0; transform: translateX(-5%); }
-    100% { opacity: 0; transform: translateX(-5%); }
+    0% { opacity: 0; transform: translateX(100%); } /* Slides in from the right */
+    10% { opacity: 1; transform: translateX(0); }   /* Fully arrived */
+    33.33% { opacity: 1; transform: translateX(0); } /* Stays in place */
+    43.33% { opacity: 0; transform: translateX(0); } /* Fades out in place while next one slides in */
+    100% { opacity: 0; transform: translateX(0); }
 }
 
 /* Header */
