@@ -95,6 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 unluckyText.style.opacity = '0';
                 setTimeout(() => {
                     unluckyText.style.display = 'none';
+                    
+                    const videoContainer = document.getElementById('unluckyContainer');
+                    if (videoContainer) videoContainer.classList.add('video-expanded');
+
                     unluckyVideo.style.display = 'block';
                     unluckyVideo.muted = false;
                     unluckyVideo.play().catch(e => {
