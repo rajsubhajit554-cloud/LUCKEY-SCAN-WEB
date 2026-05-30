@@ -395,6 +395,46 @@ body {
     z-index: 1;
 }
 
+.unlucky-video-container.expanded {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    height: 90vh;
+    max-width: none;
+    z-index: 2000;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    background: #000;
+    border-radius: 12px;
+}
+
+.unlucky-video-container.expanded #unluckyVideo {
+    object-fit: contain;
+}
+
+.expand-video-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 20;
+    color: white;
+    transition: background 0.3s ease;
+}
+
+.expand-video-btn:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
 /* Modernized Message Box */
 .message-content {
     margin: 0 auto 25px;
@@ -657,50 +697,4 @@ body {
 .social-icon.yt:hover { background: #ff0000; color: #fff; }
 .social-icon.dripza:hover { transform: scale(1.1); box-shadow: 0 6px 14px rgba(212, 175, 55, 0.4); }
 
-/* Video Modal */
-.video-modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.92);
-    z-index: 10000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.5s ease;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
 
-.video-modal.active {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-#modalVideo {
-    width: 90vw;
-    height: 85vh;
-    max-width: 600px;
-    object-fit: contain;
-    border-radius: 16px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-    transform: scale(0.8);
-    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.video-modal.active #modalVideo {
-    transform: scale(1);
-}
-
-.unmute-hint {
-    position: absolute;
-    bottom: 40px;
-    background: rgba(0,0,0,0.7);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 30px;
-    font-size: 1rem;
-    pointer-events: none;
-    display: none;
-}

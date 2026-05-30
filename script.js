@@ -70,11 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const unmuteHint = document.getElementById('unmuteHint');
     const ribbonContainer = document.getElementById('ribbonContainer');
     
-    // Modal Elements
-    const videoModal = document.getElementById('videoModal');
-    const modalVideo = document.getElementById('modalVideo');
-    const modalUnmuteHint = document.getElementById('modalUnmuteHint');
-
     if (unluckyText && unluckyVideo) {
         // Unmute on interaction
         const enableSound = () => {
@@ -82,59 +77,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 unluckyVideo.muted = false;
                 if (unmuteHint) unmuteHint.style.display = 'none';
             }
-            if (modalVideo && modalVideo.muted) {
-                modalVideo.muted = false;
-                if (modalUnmuteHint) modalUnmuteHint.style.display = 'none';
-            }
         };
         document.body.addEventListener('click', enableSound);
         document.body.addEventListener('touchstart', enableSound, { passive: true });
-
-        // Small video loop
-        unluckyVideo.addEventListener('ended', () => {
-            unluckyVideo.play().catch(e => {
-                unluckyVideo.muted = true;
-                if (unmuteHint) unmuteHint.style.display = 'block';
-                unluckyVideo.play();
-            });
-        });
-
-        // Modal video logic
-        if (modalVideo) {
-            modalVideo.addEventListener('ended', () => {
-                // Hide modal
-                videoModal.classList.remove('active');
-                
-                // Show and play small video in its original place
-                unluckyVideo.style.display = 'block';
-                unluckyVideo.currentTime = 0;
-                unluckyVideo.play().catch(e => {
-                    unluckyVideo.muted = true;
-                    if (unmuteHint) unmuteHint.style.display = 'block';
-                    unluckyVideo.play();
-                });
-            });
-        }
 
         const startVideoSequence = () => {
             // Wait 2 seconds so they can read the winner text
             setTimeout(() => {
                 unluckyText.style.opacity = '0';
                 setTimeout(() => {
-                    unluckyText.style.display = 'none';
+                    unluckyVideo.style.display = 'block';
+                    const expandBtn = document.getElementById('expandVideoBtn');
+                    const unluckyContainer = document.getElementById('unluckyContainer');
                     
-                    if (videoModal && modalVideo) {
-                        videoModal.classList.add('active');
-                        modalVideo.muted = false;
-                        modalVideo.play().catch(e => {
-                            modalVideo.muted = true;
-                            if (modalUnmuteHint) modalUnmuteHint.style.display = 'block';
-                            modalVideo.play();
-                        });
-                    } else {
-                        unluckyVideo.style.display = 'block';
-                        unluckyVideo.play();
+                    if (unluckyContainer) unluckyContainer.classList.add('expanded');
+                    if (expandBtn) {
+                        expandBtn.style.display = 'flex';
+                        expandBtn.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>';
                     }
+                    
+                    unluckyVideo.muted = false;
+                    unluckyVideo.play().catch(e => {
+                        unluckyVideo.muted = true;
+                        if (unmuteHint) unmuteHint.style.display = 'block';
+                        unluckyVideo.play();
+                    });
                 }, 500);
             }, 2500);
         };
@@ -163,6 +130,28 @@ document.addEventListener('DOMContentLoaded', () => {
             ribbonContainer.addEventListener('click', cutRibbon);
         } else {
             startVideoSequence();
+        }
+
+        // Expand Video Logic
+        const expandBtn = document.getElementById('expandVideoBtn');
+        const unluckyContainer = document.getElementById('unluckyContainer');
+        
+        if (expandBtn && unluckyContainer) {
+            unluckyVideo.addEventListener('ended', () => {
+                unluckyContainer.classList.remove('expanded');
+                expandBtn.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>';
+            });
+
+            expandBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                unluckyContainer.classList.toggle('expanded');
+                
+                if (unluckyContainer.classList.contains('expanded')) {
+                    expandBtn.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>';
+                } else {
+                    expandBtn.innerHTML = '<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>';
+                }
+            });
         }
     }
 });
