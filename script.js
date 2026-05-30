@@ -69,6 +69,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const unluckyVideo = document.getElementById('unluckyVideo');
     const unmuteHint = document.getElementById('unmuteHint');
     const ribbonContainer = document.getElementById('ribbonContainer');
+    
+    // Modal Elements
+    const videoModal = document.getElementById('videoModal');
+    const modalVideo = document.getElementById('modalVideo');
+    const modalUnmuteHint = document.getElementById('modalUnmuteHint');
 
     if (unluckyText && unluckyVideo) {
         // Unmute on interaction
@@ -77,11 +82,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 unluckyVideo.muted = false;
                 if (unmuteHint) unmuteHint.style.display = 'none';
             }
+            if (modalVideo && modalVideo.muted) {
+                modalVideo.muted = false;
+                if (modalUnmuteHint) modalUnmuteHint.style.display = 'none';
+            }
         };
         document.body.addEventListener('click', enableSound);
         document.body.addEventListener('touchstart', enableSound, { passive: true });
 
-        // Loop the video
+        // Small video loop
         unluckyVideo.addEventListener('ended', () => {
             unluckyVideo.play().catch(e => {
                 unluckyVideo.muted = true;
@@ -90,24 +99,44 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
+        // Modal video logic
+        if (modalVideo) {
+            modalVideo.addEventListener('ended', () => {
+                // Hide modal
+                videoModal.classList.remove('active');
+                
+                // Show and play small video in its original place
+                unluckyVideo.style.display = 'block';
+                unluckyVideo.currentTime = 0;
+                unluckyVideo.play().catch(e => {
+                    unluckyVideo.muted = true;
+                    if (unmuteHint) unmuteHint.style.display = 'block';
+                    unluckyVideo.play();
+                });
+            });
+        }
+
         const startVideoSequence = () => {
+            // Wait 2 seconds so they can read the winner text
             setTimeout(() => {
                 unluckyText.style.opacity = '0';
                 setTimeout(() => {
                     unluckyText.style.display = 'none';
                     
-                    const videoContainer = document.getElementById('unluckyContainer');
-                    if (videoContainer) videoContainer.classList.add('video-expanded');
-
-                    unluckyVideo.style.display = 'block';
-                    unluckyVideo.muted = false;
-                    unluckyVideo.play().catch(e => {
-                        unluckyVideo.muted = true;
-                        if (unmuteHint) unmuteHint.style.display = 'block';
+                    if (videoModal && modalVideo) {
+                        videoModal.classList.add('active');
+                        modalVideo.muted = false;
+                        modalVideo.play().catch(e => {
+                            modalVideo.muted = true;
+                            if (modalUnmuteHint) modalUnmuteHint.style.display = 'block';
+                            modalVideo.play();
+                        });
+                    } else {
+                        unluckyVideo.style.display = 'block';
                         unluckyVideo.play();
-                    });
+                    }
                 }, 500);
-            }, 1000);
+            }, 2500);
         };
 
         // Ribbon Logic
