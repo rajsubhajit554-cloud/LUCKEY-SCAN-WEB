@@ -81,13 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.addEventListener('click', enableSound);
         document.body.addEventListener('touchstart', enableSound, { passive: true });
 
-        // Toggle between two videos
+        // Loop the video
         unluckyVideo.addEventListener('ended', () => {
-            if (unluckyVideo.src.includes('02.l.mp4')) {
-                unluckyVideo.src = '01.l.mp4';
-            } else {
-                unluckyVideo.src = '02.l.mp4';
-            }
             unluckyVideo.play().catch(e => {
                 unluckyVideo.muted = true;
                 if (unmuteHint) unmuteHint.style.display = 'block';
